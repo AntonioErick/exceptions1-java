@@ -42,9 +42,22 @@ public class Reservation {
 		return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS); //converte o valor diff que esta em mile seconds para dias
 	}
 	
-	public void updateDates(Date checkIn, Date checkOut) {
+	public String updateDates(Date checkIn, Date checkOut) {
+		
+		Date now = new Date();
+		
+		//before verifica se uma data é anterior a outra
+		if(checkIn.before(now) || checkOut.before(now)) {
+			return "Error un reservation: Reservation dates for updates must be future dates.";
+		}
+		if(!checkOut.after(checkIn)){
+			return "Error in reservation: Check-out date must be after check-in date.";
+		}
+		
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		
+		return null;
 	}
 	
 	@Override
